@@ -215,8 +215,8 @@ TembooChoreoSSL GetWeatherByAddressChoreo(client);
 // Disconnects from the WiFi
 WiFi.disconnect();
 //readings delay
-delay(10000);
-//delay(3600000);//take a reading every hour
+//delay(10000); //10 sec
+delay(3600000);//take a reading every hour
 number1++;
 }
 

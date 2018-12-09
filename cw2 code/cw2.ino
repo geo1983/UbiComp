@@ -1,4 +1,3 @@
-#include "arduino_secrets.h"
 #include <SimpleDHT.h>
 #include <Wire.h>
 #include "ThingSpeak.h"
@@ -16,7 +15,7 @@ SdFile root;
 
 File myFile;
 File dataFile;
-WiFiClient client2;
+WiFiClient client2;  
 WiFiSSLClient client;
 char ssid[] = SECRET_SSID;   // your network SSID (name) 
 char pass[] = SECRET_PASS;   // your network password
@@ -36,7 +35,8 @@ SimpleDHT11 dht11(pinDHT11);
 int val = 0; //value for storing moisture value 
 int soilPin = A0;//Declare a variable for the soil moisture sensor 
 int soilPower = 5;//Variable for Soil moisture Power
-int number1 = 0;
+int number1 = 0; // reading number which adds up by 1 at every reading
+int led = 6; // led pin no
 
 //Rather than powering the sensor through the 3.3V or 5V pins, 
 //we'll use a digital pin to power the sensor. This will 
@@ -59,7 +59,8 @@ void setup()
   
   pinMode(soilPower, OUTPUT);//Set D7 as an OUTPUT
   digitalWrite(soilPower, LOW);//Set to LOW so no power is flowing through the sensor
-  
+ 
+ pinMode(led, OUTPUT); // set led pin as output
 }
 
 void loop() 
@@ -87,9 +88,11 @@ Serial.print("Soil Moisture = ");
 Serial.println(readSoil());
 if (readSoil()<420){
 Serial.println("Dry soil");
+digitalWrite(led, HIGH); // turns led on
 }
 else {
 Serial.println("Wet soil");
+digitalWrite(led, LOW); // turns led off
 }
 
 // read without samples.
@@ -215,7 +218,7 @@ TembooChoreoSSL GetWeatherByAddressChoreo(client);
 // Disconnects from the WiFi
 WiFi.disconnect();
 //readings delay
-//delay(10000); //10 sec
+//delay(10000); //10 sec 
 delay(3600000);//take a reading every hour
 number1++;
 }
